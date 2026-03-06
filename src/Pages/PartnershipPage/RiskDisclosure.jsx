@@ -11,7 +11,7 @@ const RiskDisclosure = () => {
 
           <p className="text-gray-300 text-sm">
             All partnerships are tied to real product sales.
-            Returns are not guaranteed and depend on market
+            Returns are guaranteed base on market
             conditions and sales performance.
           </p>
 
