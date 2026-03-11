@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "../../public/brandLogo.jpeg";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -20,8 +21,16 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* Logo */}
-        <Link to="/" className="text-xl font-bold text-white">
-          <span className="text-yellow-500">EMMCORE</span>
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src={logo}
+            alt="EMMCORE-GLOBAL NETWORKS LTD"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+
+          <span className="text-xl font-bold text-yellow-500">
+            EMMCORE-GLOBAL
+          </span>
         </Link>
 
         {/* Desktop Nav */}
