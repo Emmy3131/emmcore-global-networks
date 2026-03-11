@@ -7,6 +7,9 @@ import WebServicesControl from "./Pages/WebServicesPage/WebServicesControl";
 import PortfolioPage from "./Pages/PortfoliorPage/Portfolior";
 import PartnershipPage from "./Pages/PartnershipPage/PartnershipPage";
 import ContactPage from "./Pages/ContactPage/Contact";
+import AuthLayout from "./Layout/AuthLayout";
+import Login from "./Pages/AuthPage/Login";
+import Signup from "./Pages/AuthPage/SignUp";
 
 const App = () => {
   return (
@@ -21,6 +24,11 @@ const App = () => {
           <Route path="/partner" element={<PartnershipPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Route>
+
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>  
       </Routes>
     </BrowserRouter>
   );

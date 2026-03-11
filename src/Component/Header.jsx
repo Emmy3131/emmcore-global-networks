@@ -79,7 +79,7 @@ const Header = () => {
               </Link>
             ))}
 
-            <Link to="/partner">
+            <Link to="//login">
               <button className="bg-yellow-500 text-black py-2 rounded-lg font-semibold w-full">
                 Get Started
               </button>
