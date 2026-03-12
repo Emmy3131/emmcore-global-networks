@@ -28,6 +28,21 @@ const Login = () => {
 
       </form>
 
+      <div className="flex justify-between">
+        <span>
+        <input type="checkbox" id="remember" className="mr-2" />
+        <label htmlFor="remember" className="text-sm">
+          Remember Me
+        </label>
+      </span>
+
+      <span>
+        <Link to="/forgot-password" className="text-blue-600 font-semibold">
+          Forgot Password?
+        </Link>
+      </span>
+      </div>
+
       <p className="text-sm text-center mt-6">
         Don't have an account?{" "}
         <Link to="/signup" className="text-blue-600 font-semibold">

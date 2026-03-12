@@ -28,6 +28,21 @@ const Signup = () => {
           className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
+         <input
+          type="password"
+          placeholder="Confirm Password"
+          className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+
+        <span>
+            <input type="checkbox" id="terms" className="mr-2" />
+            <label htmlFor="terms" className="text-sm">
+              I agree to the <a href="/terms" className="text-blue-600 font-semibold">
+                Terms of Service
+              </a>
+            </label>
+        </span>
+
         <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
           Sign Up
         </button>
