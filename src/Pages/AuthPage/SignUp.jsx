@@ -34,7 +34,7 @@ const Signup = () => {
           className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
-        <span>
+        <span className="mt-4">
             <input type="checkbox" id="terms" className="mr-2" />
             <label htmlFor="terms" className="text-sm">
               I agree to the <a href="/terms" className="text-blue-600 font-semibold">
@@ -43,7 +43,7 @@ const Signup = () => {
             </label>
         </span>
 
-        <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+        <button className="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
           Sign Up
         </button>
 

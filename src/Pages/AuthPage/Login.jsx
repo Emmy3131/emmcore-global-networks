@@ -28,7 +28,7 @@ const Login = () => {
 
       </form>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center mt-4">
         <span>
         <input type="checkbox" id="remember" className="mr-2" />
         <label htmlFor="remember" className="text-sm">
