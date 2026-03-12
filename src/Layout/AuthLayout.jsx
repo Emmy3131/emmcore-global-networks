@@ -30,8 +30,8 @@ const AuthLayout = () => {
       </div>
 
       {/* Right Side */}
-      <div className="flex items-center justify-center bg-gray-900 p-8 md:p-16">
-        <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12">
+      <div className="flex items-center justify-center bg-gray-900 p-2 md:p-16">
+        <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-2 md:p-12">
           <Outlet />
         </div>
       </div>
