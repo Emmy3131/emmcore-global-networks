@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import bgImage from "../assets/heroImage/hero.png";
 import BrandLogo from "../Component/BrandLogo";
 
@@ -13,9 +13,9 @@ const AuthLayout = () => {
         }}
       >
         {/* Logo always visible */}
-        <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
+        <Link to="/" className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
           <BrandLogo className="w-24 md:w-32 h-auto" />
-        </div>
+        </Link>
 
         {/* Left content only for desktop */}
         <div className="hidden md:flex flex-col justify-center items-center h-full text-center px-12">
