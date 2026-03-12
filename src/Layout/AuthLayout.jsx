@@ -28,8 +28,8 @@ const AuthLayout = () => {
       </div>
 
       {/* Right Side - scrollable */}
-      <div className="flex-1 w-full h-screen overflow-y-auto bg-gray-900 p-2 md:p-16">
-        <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-2 md:p-12">
+      <div className="flex-1 w-full h-screen bg-gray-900 p-2 md:p-16">
+        <div className="w-full max-w-md bg-gray-800 h-screen overflow-y-auto rounded-2xl shadow-lg p-2 md:p-12">
           <Outlet />
         </div>
       </div>
