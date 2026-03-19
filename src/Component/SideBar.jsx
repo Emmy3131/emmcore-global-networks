@@ -41,7 +41,7 @@ const Sidebar = ({ links, title }) => {
       </nav>
 
       {/* Footer (UserInfo) */}
-      <div className="p-5 border-t border-gray-700">
+      <div className="p-5 border-t border-gray-700 hidden lg:block">
         <UserInfo />
       </div>
     </div>
