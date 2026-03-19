@@ -1,42 +1,49 @@
 import { NavLink } from "react-router-dom";
 import UserInfo from "./UserInfo";
+import { CiLogout } from "react-icons/ci";
 
 const Sidebar = ({ links, title }) => {
   return (
-    <div className="w-64 min-h-screen bg-gray-900 text-white p-5">
+    <div className="w-64 h-screen bg-gray-900 text-white flex flex-col">
+      
+      {/* Header */}
+      <div className="p-5">
+        <h2 className="text-xl font-bold">{title}</h2>
+      </div>
 
-      <h2 className="text-xl font-bold mb-6">{title}</h2>
+      {/* Scrollable Content */}
+      <nav className="flex-1 overflow-y-auto px-5 flex flex-col gap-3">
+        {links.map((link) => {
+          const Icon = link.icon;
 
-      <nav className="flex flex-col gap-3">
+          return (
+            <NavLink
+              to={link.path}
+              key={link.name}
+              className={({ isActive }) =>
+                `flex items-center gap-3 p-2 rounded ${
+                  isActive
+                    ? "bg-gray-700 font-semibold"
+                    : "hover:bg-gray-800"
+                }`
+              }
+            >
+              {Icon && <Icon className="text-lg" />}
+              <span>{link.name}</span>
+            </NavLink>
+          );
+        })}
 
-        {links.map((link, index) => (
-          <NavLink
-            key={index}
-            to={link.path}
-            className={({ isActive }) =>
-              `px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-500 text-white"
-                  : "hover:bg-gray-700"
-              }`
-            }
-          >
-            {link.name}
-          </NavLink>
-        ))}
-        <button className="px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-          Logout
+        <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition text-left bg-red-500 mb-3">
+          <CiLogout className="text-lg" />
+          <span>Logout</span>
         </button>
       </nav>
 
-     
-        <div className="absolute bottom-5 left-5 right-5 hidden lg:block">
-          <UserInfo />
-        </div>
-     
-
-
-
+      {/* Footer (UserInfo) */}
+      <div className="p-5 border-t border-gray-700">
+        <UserInfo />
+      </div>
     </div>
   );
 };
