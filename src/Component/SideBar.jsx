@@ -34,7 +34,7 @@ const Sidebar = ({ links, title }) => {
           );
         })}
 
-        <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition text-left bg-red-500 mb-3">
+        <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition text-left bg-red-500 mb-10">
           <CiLogout className="text-lg" />
           <span>Logout</span>
         </button>
