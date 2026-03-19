@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/LandingPage/Home";
 import GuestLayout from "./Layout/QuestLayout";
+import AdminLayout from "./Layout/AdminLayout";
 import Shop from "./Pages/ShopModel/Shop";
 import RepairsPage from "./Pages/RepairServiceModel/RepairPage";
 import WebServicesControl from "./Pages/WebServicesPage/WebServicesControl";
@@ -10,6 +11,9 @@ import ContactPage from "./Pages/ContactPage/Contact";
 import AuthLayout from "./Layout/AuthLayout";
 import Login from "./Pages/AuthPage/Login";
 import Signup from "./Pages/AuthPage/SignUp";
+
+//Admin pages
+import AdminOverview from "./Pages/Dashbords/AdminDashbord/AdminDashBord";
 
 const App = () => {
   return (
@@ -28,7 +32,11 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-        </Route>  
+        </Route>
+
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard" element={<AdminOverview />} />
+        </Route> 
       </Routes>
     </BrowserRouter>
   );
