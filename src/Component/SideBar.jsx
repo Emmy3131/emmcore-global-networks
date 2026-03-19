@@ -30,7 +30,9 @@ const Sidebar = ({ links, title }) => {
       </nav>
 
      
-        <UserInfo />
+        <div className="absolute bottom-5 left-5 right-5 hidden lg:block">
+          <UserInfo />
+        </div>
      
 
 
