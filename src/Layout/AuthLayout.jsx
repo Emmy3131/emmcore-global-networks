@@ -34,7 +34,7 @@ const AuthLayout = () => {
       </div>
 
       {/* Right Side (Scrollable Form) */}
-      <div className="flex-1 h-screen overflow-y-auto bg-gray-900 pt-24 md:pt-0 p-2 md:p-16">
+      <div className="flex-1 h-screen overflow-y-auto bg-gray-900 pt-24 md:pt-20 p-2 md:p-16">
         <div className="w-full max-w-md mx-auto bg-gray-800 rounded-2xl shadow-lg p-2 md:p-12">
           <Outlet />
         </div>

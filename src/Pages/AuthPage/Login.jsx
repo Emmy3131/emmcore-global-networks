@@ -24,9 +24,11 @@ const Login = () => {
           className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
-        <Link to="/dashboard" className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+       <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+         <Link to="/dashboard" >
           Login
         </Link>
+       </button>
 
       </form>
 
