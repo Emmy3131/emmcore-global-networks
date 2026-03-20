@@ -15,6 +15,7 @@ import Signup from "./Pages/AuthPage/SignUp";
 //Admin pages
 import AdminOverview from "./Pages/Dashbords/AdminDashbord/AdminDashBord";
 import ProductManagement from "./Pages/Dashbords/AdminDashbord/ProductManagement";
+import OrderManagement from "./Pages/Dashbords/AdminDashbord/OrderManagement";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
         <Route element={<AdminLayout />}>
           <Route path="/dashboard" element={<AdminOverview />} />
           <Route path="/products" element={<ProductManagement />} />
+          <Route path="/admin/orders" element={<OrderManagement />} />
         </Route> 
       </Routes>
     </BrowserRouter>
