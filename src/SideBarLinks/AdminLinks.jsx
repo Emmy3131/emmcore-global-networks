@@ -13,7 +13,7 @@ import {
 
 export const adminLinks = [
   { name: "Dashboard Overview", path: "/dashboard", icon: FaTachometerAlt },
-  { name: "Products Management", path: "/admin/products", icon: FaBoxOpen },
+  { name: "Products Management", path: "/products", icon: FaBoxOpen },
   { name: "Orders Management", path: "/admin/orders", icon: FaShoppingCart },
   { name: "Repairs Management", path: "/admin/repairs", icon: FaTools },
   { name: "Web Projects", path: "/admin/projects", icon: FaProjectDiagram },
