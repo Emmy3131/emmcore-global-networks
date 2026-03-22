@@ -16,6 +16,13 @@ import Signup from "./Pages/AuthPage/SignUp";
 import AdminOverview from "./Pages/Dashbords/AdminDashbord/AdminDashBord";
 import ProductManagement from "./Pages/Dashbords/AdminDashbord/ProductManagement";
 import OrderManagement from "./Pages/Dashbords/AdminDashbord/OrderManagement";
+import RepairManagement from "./Pages/Dashbords/AdminDashbord/RepairManagement";
+import WebProjectManagement from "./Pages/Dashbords/AdminDashbord/WebProjectManagement";
+import InvestmentManagement from "./Pages/Dashbords/AdminDashbord/InvestmentManegement";
+import UserManagement from "./Pages/Dashbords/AdminDashbord/UserManagement";
+import WalletAndTransactions from "./Pages/Dashbords/AdminDashbord/WalletAndTransactions";
+import ReportAndAnalytics from "./Pages/Dashbords/AdminDashbord/ReportAndAnalytics";
+import Settings from "./Pages/Dashbords/AdminDashbord/Settings";
 
 const App = () => {
   return (
@@ -40,6 +47,13 @@ const App = () => {
           <Route path="/dashboard" element={<AdminOverview />} />
           <Route path="/products" element={<ProductManagement />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
+          <Route path="/admin/repairs" element={<RepairManagement />} />
+          <Route path="/admin/projects" element={<WebProjectManagement />} />
+          <Route path="/admin/investments" element={<InvestmentManagement />} />
+          <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/admin/wallet" element={<WalletAndTransactions />} />
+          <Route path="/admin/reports" element={<ReportAndAnalytics />} />
+          <Route path="/admin/settings" element={<Settings />} />
         </Route> 
       </Routes>
     </BrowserRouter>
