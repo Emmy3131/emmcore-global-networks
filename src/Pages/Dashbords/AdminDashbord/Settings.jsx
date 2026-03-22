@@ -26,10 +26,10 @@ const AdminSettings = () => {
   });
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
 
       {/* HEADER */}
-      <h1 className="text-xl sm:text-2xl font-bold text-white">
+      <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
         Admin Settings
       </h1>
 

@@ -58,7 +58,7 @@ const AdminLayout = () => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 bg-gray-900 overflow-y-hidden p-4 sm:p-6 lg:p-8 mt-14 lg:mt-0 flex flex-col lg:ml-64">
+        <main className="flex-1 pt-5 md:pt-0 bg-gray-900 overflow-y-hidden md:p-4 mt-14 lg:mt-0 flex flex-col lg:ml-64">
           <Outlet />
         </main>
 

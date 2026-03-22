@@ -10,9 +10,9 @@ const AdminOverview = () => {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
       {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-100">Dashboard Overview</h1>
+      <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">Dashboard Overview</h1>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

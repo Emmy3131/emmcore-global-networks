@@ -99,10 +99,10 @@ const ProductManagement = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <h1 className="text-lg sm:text-2xl font-bold text-white">
+        <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
           Product Management
         </h1>
 
