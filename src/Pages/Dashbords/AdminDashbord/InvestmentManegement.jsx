@@ -36,7 +36,7 @@ const InvestmentManagement = () => {
   return (
     <div className="w-full mx-auto p-3 sm:p-6 space-y-4">
       {/* HEADER */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between gap-3 md:items-center">
         <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
           Investment Management
         </h1>
