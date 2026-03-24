@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaEye, FaPlus } from "react-icons/fa";
+import Card from "../../../Component/Card";
 
 const InvestmentManagement = () => {
-
   // ✅ STATE
   const [investments, setInvestments] = useState([
     {
@@ -29,11 +29,12 @@ const InvestmentManagement = () => {
 
   // 📊 SUMMARY CALCULATION
   const totalInvested = investments.reduce((acc, i) => acc + i.amount, 0);
-  const activeInvestments = investments.filter(i => i.status === "Active").length;
+  const activeInvestments = investments.filter(
+    (i) => i.status === "Active",
+  ).length;
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
-
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-4">
       {/* HEADER */}
       <div className="flex justify-between items-center">
         <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
@@ -47,7 +48,6 @@ const InvestmentManagement = () => {
 
       {/* 💰 SUMMARY CARDS */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-
         <div className="bg-white p-4 rounded-xl shadow">
           <p className="text-gray-500 text-sm">Total Invested</p>
           <h2 className="font-bold text-lg">
@@ -57,61 +57,39 @@ const InvestmentManagement = () => {
 
         <div className="bg-white p-4 rounded-xl shadow">
           <p className="text-gray-500 text-sm">Active Plans</p>
-          <h2 className="font-bold text-lg">
-            {activeInvestments}
-          </h2>
+          <h2 className="font-bold text-lg">{activeInvestments}</h2>
         </div>
 
         <div className="bg-white p-4 rounded-xl shadow">
           <p className="text-gray-500 text-sm">Total ROI</p>
-          <h2 className="font-bold text-lg text-green-600">
-            +15%
-          </h2>
+          <h2 className="font-bold text-lg text-green-600">+15%</h2>
         </div>
-
       </div>
 
+     
       {/* 📱 MOBILE CARDS */}
       <div className="grid gap-4 sm:hidden">
         {investments.map((inv) => (
-          <div key={inv.id} className="bg-white p-4 rounded-xl shadow">
-
-            <div className="flex justify-between">
-              <h2 className="font-semibold">{inv.product}</h2>
-
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  inv.status === "Active"
-                    ? "bg-green-100 text-green-600"
-                    : "bg-gray-200 text-gray-600"
-                }`}
-              >
-                {inv.status}
-              </span>
-            </div>
-
-            <p className="text-sm text-gray-500">
-              Investor: {inv.investor}
-            </p>
-
-            <div className="flex justify-between mt-2 text-sm">
-              <span>₦{inv.amount.toLocaleString()}</span>
-              <span>ROI: {inv.roi}%</span>
-            </div>
-
-            <div className="flex justify-between mt-2 text-xs text-gray-400">
-              <span>{inv.startDate}</span>
-              <span>{inv.endDate}</span>
-            </div>
-
-            <button
-              onClick={() => handleView(inv)}
-              className="mt-3 text-blue-500 text-sm"
-            >
-              <FaEye />
-            </button>
-
-          </div>
+          <Card
+            key={inv.id}
+            title={inv.product}
+            subtitle={inv.investor}
+            amount={`₦${inv.amount.toLocaleString()}`}
+            roi={`${inv.roi}%`}
+            status={{
+              label: inv.status,
+              type: inv.status === "Active" ? "success" : "warning",
+            }}
+            startDate={inv.startDate}
+            endDate={inv.endDate}
+            actions={[
+              {
+                icon: <FaEye />,
+                onClick: () => handleView(inv),
+                className: "bg-blue-100 text-blue-600",
+              },
+            ]}
+          />
         ))}
       </div>
 
@@ -133,7 +111,6 @@ const InvestmentManagement = () => {
           <tbody>
             {investments.map((inv) => (
               <tr key={inv.id} className="border-t hover:bg-gray-50">
-
                 <td className="p-4">{inv.investor}</td>
                 <td>{inv.product}</td>
                 <td>₦{inv.amount.toLocaleString()}</td>
@@ -155,7 +132,6 @@ const InvestmentManagement = () => {
                     onClick={() => handleView(inv)}
                   />
                 </td>
-
               </tr>
             ))}
           </tbody>
@@ -166,16 +142,30 @@ const InvestmentManagement = () => {
       {showModal && selectedInvestment && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-xl w-full max-w-md space-y-3">
-
             <h2 className="font-bold text-lg">Investment Details</h2>
 
-            <p><strong>Investor:</strong> {selectedInvestment.investor}</p>
-            <p><strong>Product:</strong> {selectedInvestment.product}</p>
-            <p><strong>Amount:</strong> ₦{selectedInvestment.amount.toLocaleString()}</p>
-            <p><strong>ROI:</strong> {selectedInvestment.roi}%</p>
-            <p><strong>Status:</strong> {selectedInvestment.status}</p>
-            <p><strong>Start:</strong> {selectedInvestment.startDate}</p>
-            <p><strong>End:</strong> {selectedInvestment.endDate}</p>
+            <p>
+              <strong>Investor:</strong> {selectedInvestment.investor}
+            </p>
+            <p>
+              <strong>Product:</strong> {selectedInvestment.product}
+            </p>
+            <p>
+              <strong>Amount:</strong> ₦
+              {selectedInvestment.amount.toLocaleString()}
+            </p>
+            <p>
+              <strong>ROI:</strong> {selectedInvestment.roi}%
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedInvestment.status}
+            </p>
+            <p>
+              <strong>Start:</strong> {selectedInvestment.startDate}
+            </p>
+            <p>
+              <strong>End:</strong> {selectedInvestment.endDate}
+            </p>
 
             <button
               onClick={() => setShowModal(false)}
@@ -183,11 +173,9 @@ const InvestmentManagement = () => {
             >
               Close
             </button>
-
           </div>
         </div>
       )}
-
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
+import Card from "../../../Component/Card";
 
 const UserManagement = () => {
-
   // ✅ STATE
   const [users, setUsers] = useState([
     {
@@ -45,23 +45,30 @@ const UserManagement = () => {
     }
   };
 
-  // 🔄 CHANGE ROLE
+  // 🔄 ROLE CHANGE
   const handleRoleChange = (id, role) => {
     setUsers((prev) =>
       prev.map((u) => (u.id === id ? { ...u, role } : u))
     );
   };
 
-  // 🔄 CHANGE STATUS
+  // 🔄 STATUS CHANGE
   const handleStatusChange = (id, status) => {
     setUsers((prev) =>
       prev.map((u) => (u.id === id ? { ...u, status } : u))
     );
   };
 
-  return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
+  // 🎨 STATUS STYLE
+  const getStatusStyle = (status) => {
+    return status === "Active"
+      ? "bg-green-100 text-green-600"
+      : "bg-red-100 text-red-600";
+  };
 
+  return (
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-6">
+      
       {/* HEADER */}
       <h1 className="text-xl sm:text-2xl font-bold text-white">
         User Management
@@ -71,97 +78,72 @@ const UserManagement = () => {
       <input
         type="text"
         placeholder="Search users..."
-        className="bg-gray-100 p-2 rounded w-full"
+        className="bg-gray-100 p-3 rounded-lg w-full"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* 📱 MOBILE VIEW */}
+      {/* 📱 MOBILE CARDS */}
       <div className="grid gap-4 sm:hidden">
         {filteredUsers.map((user) => (
-          <div key={user.id} className="bg-white p-4 rounded-xl shadow">
-
-            <div className="flex justify-between">
-              <h2 className="font-semibold">{user.name}</h2>
-
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  user.status === "Active"
-                    ? "bg-green-100 text-green-600"
-                    : "bg-red-100 text-red-600"
-                }`}
-              >
-                {user.status}
-              </span>
-            </div>
-
-            <p className="text-sm text-gray-500">{user.email}</p>
-
-            <div className="flex justify-between mt-2 text-sm">
-              <span>{user.role}</span>
-              <span>{user.joined}</span>
-            </div>
-
-            <div className="flex gap-3 mt-3 items-center">
-
-              <button onClick={() => handleView(user)}>
-                <FaEye className="text-blue-500" />
-              </button>
-
-              <select
-                value={user.role}
-                onChange={(e) =>
-                  handleRoleChange(user.id, e.target.value)
-                }
-                className="text-xs border rounded px-1"
-              >
-                <option>User</option>
-                <option>Admin</option>
-              </select>
-
-              <select
-                value={user.status}
-                onChange={(e) =>
-                  handleStatusChange(user.id, e.target.value)
-                }
-                className="text-xs border rounded px-1"
-              >
-                <option>Active</option>
-                <option>Suspended</option>
-              </select>
-
-              <button onClick={() => handleDelete(user.id)}>
-                <FaTrash className="text-red-500" />
-              </button>
-
-            </div>
-
-          </div>
+          <Card
+            key={user.id}
+            title={user.name}
+            subtitle={user.email}
+            status={{
+              label: user.status,
+              type: user.status === "Active" ? "success" : "danger",
+            }}
+            children={
+              <div className="text-xs text-gray-500 space-y-1">
+                <p>Role: {user.role}</p>
+                <p>Joined: {user.joined}</p>
+              </div>
+            }
+            actions={[
+              {
+                icon: <FaEye />,
+                onClick: () => handleView(user),
+                className: "bg-blue-100 text-blue-600",
+              },
+              {
+                icon: <FaTrash />,
+                onClick: () => handleDelete(user.id),
+                className: "bg-red-100 text-red-600",
+              },
+            ]}
+          />
         ))}
       </div>
 
       {/* 💻 DESKTOP TABLE */}
-      <div className="hidden sm:block bg-white rounded-2xl shadow overflow-hidden">
+      <div className="hidden sm:block bg-white rounded-xl shadow overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-gray-600">
+          
+          <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
             <tr>
-              <th className="p-4 text-left">Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Joined</th>
-              <th className="text-center">Actions</th>
+              <th className="px-6 py-3 text-left">Name</th>
+              <th className="px-6 py-3 text-left">Email</th>
+              <th className="px-6 py-3 text-left">Role</th>
+              <th className="px-6 py-3 text-left">Status</th>
+              <th className="px-6 py-3 text-left">Joined</th>
+              <th className="px-6 py-3 text-center">Actions</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y">
             {filteredUsers.map((user) => (
-              <tr key={user.id} className="border-t hover:bg-gray-50">
+              <tr key={user.id} className="hover:bg-gray-50">
 
-                <td className="p-4 font-medium">{user.name}</td>
-                <td>{user.email}</td>
+                <td className="px-6 py-4 font-medium text-gray-800">
+                  {user.name}
+                </td>
 
-                <td>
+                <td className="px-6 py-4 text-gray-500">
+                  {user.email}
+                </td>
+
+                <td className="px-6 py-4">
                   <select
                     value={user.role}
                     onChange={(e) =>
@@ -174,7 +156,7 @@ const UserManagement = () => {
                   </select>
                 </td>
 
-                <td>
+                <td className="px-6 py-4">
                   <select
                     value={user.status}
                     onChange={(e) =>
@@ -185,20 +167,38 @@ const UserManagement = () => {
                     <option>Active</option>
                     <option>Suspended</option>
                   </select>
+
+                  <div className="mt-1">
+                    <span
+                      className={`px-2 py-1 text-xs rounded ${getStatusStyle(
+                        user.status
+                      )}`}
+                    >
+                      {user.status}
+                    </span>
+                  </div>
                 </td>
 
-                <td>{user.joined}</td>
+                <td className="px-6 py-4 text-gray-400">
+                  {user.joined}
+                </td>
 
-                <td className="flex justify-center gap-3 p-4">
-                  <FaEye
-                    className="text-blue-500 cursor-pointer"
-                    onClick={() => handleView(user)}
-                  />
+                <td className="px-6 py-4">
+                  <div className="flex justify-center gap-3">
+                    <button
+                      onClick={() => handleView(user)}
+                      className="p-2 bg-blue-100 text-blue-600 rounded-lg"
+                    >
+                      <FaEye />
+                    </button>
 
-                  <FaTrash
-                    className="text-red-500 cursor-pointer"
-                    onClick={() => handleDelete(user.id)}
-                  />
+                    <button
+                      onClick={() => handleDelete(user.id)}
+                      className="p-2 bg-red-100 text-red-600 rounded-lg"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </td>
 
               </tr>
@@ -209,9 +209,10 @@ const UserManagement = () => {
 
       {/* 👁 MODAL */}
       {showModal && selectedUser && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+          
           <div className="bg-white p-6 rounded-xl w-full max-w-md space-y-3">
-
+            
             <h2 className="font-bold text-lg">User Details</h2>
 
             <p><strong>Name:</strong> {selectedUser.name}</p>
@@ -222,7 +223,7 @@ const UserManagement = () => {
 
             <button
               onClick={() => setShowModal(false)}
-              className="w-full bg-blue-600 text-white py-2 rounded"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg"
             >
               Close
             </button>

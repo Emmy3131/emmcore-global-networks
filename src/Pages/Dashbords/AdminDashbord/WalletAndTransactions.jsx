@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { FaEye, FaArrowDown, FaArrowUp } from "react-icons/fa";
+import Card from "../../../Component/Card";
 
 const WalletPage = () => {
 
-  // ✅ WALLET
   const [wallet] = useState({
     balance: 250000,
   });
 
-  // ✅ TRANSACTIONS
   const [transactions] = useState([
     {
       id: 1,
@@ -36,130 +35,144 @@ const WalletPage = () => {
   const [selectedTxn, setSelectedTxn] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // 🔍 FILTER
   const filteredTxns = transactions.filter((t) =>
     t.user.toLowerCase().includes(search.toLowerCase())
   );
 
-  // 👁 VIEW
   const handleView = (txn) => {
     setSelectedTxn(txn);
     setShowModal(true);
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-6">
 
       {/* HEADER */}
       <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
         Wallet & Transactions
       </h1>
 
-      {/* 💰 WALLET CARD */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-2xl shadow">
-        <p className="text-sm opacity-80">Wallet Balance</p>
-        <h2 className="text-2xl font-bold">
-          ₦{wallet.balance.toLocaleString()}
-        </h2>
+      {/* 💰 WALLET CARD (UPDATED) */}
+      <div className="grid md:grid-cols-2 gap-4">
 
-        <div className="flex gap-3 mt-4">
-          <button className="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm flex items-center gap-2">
-            <FaArrowDown /> Deposit
-          </button>
+        <Card
+          title="Wallet Balance"
+          amount={`₦${wallet.balance.toLocaleString()}`}
+          children={
+            <div className="flex gap-3 mt-3">
+              <button className="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2">
+                <FaArrowDown /> Deposit
+              </button>
 
-          <button className="bg-white text-red-500 px-4 py-2 rounded-lg text-sm flex items-center gap-2">
-            <FaArrowUp /> Withdraw
-          </button>
-        </div>
+              <button className="bg-red-500 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2">
+                <FaArrowUp /> Withdraw
+              </button>
+            </div>
+          }
+        />
+
+        {/* Optional second stat card */}
+        <Card
+          title="Total Transactions"
+          amount={transactions.length}
+        />
+
       </div>
 
-      {/* 🔍 SEARCH */}
+      {/* SEARCH */}
       <input
         type="text"
         placeholder="Search transactions..."
-        className="bg-gray-100 p-2 rounded w-full"
+        className="bg-gray-100 p-3 rounded-lg w-full"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* 📱 MOBILE */}
+      {/* 📱 MOBILE (NOW USING CARD) */}
       <div className="grid gap-4 sm:hidden">
         {filteredTxns.map((txn) => (
-          <div key={txn.id} className="bg-white p-4 rounded-xl shadow">
-
-            <div className="flex justify-between">
-              <h2 className="font-semibold">{txn.type}</h2>
-
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  txn.status === "Success"
-                    ? "bg-green-100 text-green-600"
-                    : txn.status === "Pending"
-                    ? "bg-yellow-100 text-yellow-600"
-                    : "bg-red-100 text-red-600"
-                }`}
-              >
-                {txn.status}
-              </span>
-            </div>
-
-            <p className="text-sm text-gray-500">{txn.user}</p>
-
-            <div className="flex justify-between mt-2 text-sm">
-              <span>₦{txn.amount.toLocaleString()}</span>
-              <span>{txn.date}</span>
-            </div>
-
-            <button
-              onClick={() => handleView(txn)}
-              className="mt-3 text-blue-500"
-            >
-              <FaEye />
-            </button>
-
-          </div>
+          <Card
+            key={txn.id}
+            title={txn.type}
+            subtitle={txn.user}
+            amount={`₦${txn.amount.toLocaleString()}`}
+            status={{
+              label: txn.status,
+              type:
+                txn.status === "Success"
+                  ? "success"
+                  : txn.status === "Pending"
+                  ? "warning"
+                  : "danger",
+            }}
+            children={
+              <div className="text-xs text-gray-500 space-y-1">
+                <p>Method: {txn.method}</p>
+                <p>Date: {txn.date}</p>
+              </div>
+            }
+            actions={[
+              {
+                icon: <FaEye />,
+                onClick: () => handleView(txn),
+                className: "bg-blue-100 text-blue-600",
+              },
+            ]}
+          />
         ))}
       </div>
 
-      {/* 💻 DESKTOP */}
-      <div className="hidden sm:block bg-white rounded-2xl shadow overflow-hidden">
+      {/* 💻 DESKTOP TABLE (UNCHANGED BUT CLEANED) */}
+      <div className="hidden sm:block bg-white rounded-xl shadow overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-gray-600">
+          <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
             <tr>
-              <th className="p-4 text-left">User</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Method</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Reference</th>
-              <th className="text-center">Action</th>
+              <th className="px-6 py-3 text-left">User</th>
+              <th className="px-6 py-3 text-left">Type</th>
+              <th className="px-6 py-3 text-left">Amount</th>
+              <th className="px-6 py-3 text-left">Method</th>
+              <th className="px-6 py-3 text-left">Status</th>
+              <th className="px-6 py-3 text-left">Date</th>
+              <th className="px-6 py-3 text-left">Reference</th>
+              <th className="px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y">
             {filteredTxns.map((txn) => (
-              <tr key={txn.id} className="border-t hover:bg-gray-50">
+              <tr key={txn.id} className="hover:bg-gray-50">
 
-                <td className="p-4">{txn.user}</td>
-                <td>{txn.type}</td>
-                <td>₦{txn.amount.toLocaleString()}</td>
-                <td>{txn.method}</td>
+                <td className="px-6 py-4">{txn.user}</td>
+                <td className="px-6 py-4">{txn.type}</td>
+                <td className="px-6 py-4 font-semibold">
+                  ₦{txn.amount.toLocaleString()}
+                </td>
+                <td className="px-6 py-4">{txn.method}</td>
 
-                <td>
-                  <span className="text-xs px-2 py-1 rounded bg-gray-100">
+                <td className="px-6 py-4">
+                  <span
+                    className={`px-2 py-1 text-xs rounded ${
+                      txn.status === "Success"
+                        ? "bg-green-100 text-green-600"
+                        : txn.status === "Pending"
+                        ? "bg-yellow-100 text-yellow-600"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
                     {txn.status}
                   </span>
                 </td>
 
-                <td>{txn.date}</td>
-                <td className="text-xs">{txn.reference}</td>
+                <td className="px-6 py-4 text-gray-400">{txn.date}</td>
+                <td className="px-6 py-4 text-xs">{txn.reference}</td>
 
-                <td className="text-center">
-                  <FaEye
-                    className="text-blue-500 cursor-pointer"
+                <td className="px-6 py-4 text-center">
+                  <button
                     onClick={() => handleView(txn)}
-                  />
+                    className="p-2 bg-blue-100 text-blue-600 rounded-lg"
+                  >
+                    <FaEye />
+                  </button>
                 </td>
 
               </tr>
@@ -168,9 +181,9 @@ const WalletPage = () => {
         </table>
       </div>
 
-      {/* 👁 MODAL */}
+      {/* MODAL */}
       {showModal && selectedTxn && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-md space-y-3">
 
             <h2 className="font-bold text-lg">Transaction Details</h2>
@@ -185,7 +198,7 @@ const WalletPage = () => {
 
             <button
               onClick={() => setShowModal(false)}
-              className="w-full bg-blue-600 text-white py-2 rounded"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg"
             >
               Close
             </button>

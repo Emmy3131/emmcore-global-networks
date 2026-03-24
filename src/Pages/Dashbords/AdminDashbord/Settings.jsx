@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Card from "../../../Component/Card";
 
 const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -26,8 +27,7 @@ const AdminSettings = () => {
   });
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
-
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-4">
       {/* HEADER */}
       <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
         Admin Settings
@@ -36,191 +36,154 @@ const AdminSettings = () => {
       <div className="flex flex-col md:flex-row gap-6">
 
         {/* SIDEBAR */}
-        <div className="bg-white rounded-xl p-4 w-full md:w-64 shadow">
+        <Card className="w-full md:w-64 p-4">
           <ul className="space-y-2 text-sm">
-
-            <li
-              onClick={() => setActiveTab("profile")}
-              className={`p-2 rounded cursor-pointer ${
-                activeTab === "profile" ? "bg-blue-100 text-blue-600" : ""
-              }`}
-            >
-              Profile
-            </li>
-
-            <li
-              onClick={() => setActiveTab("security")}
-              className={`p-2 rounded cursor-pointer ${
-                activeTab === "security" ? "bg-blue-100 text-blue-600" : ""
-              }`}
-            >
-              Security
-            </li>
-
-            <li
-              onClick={() => setActiveTab("platform")}
-              className={`p-2 rounded cursor-pointer ${
-                activeTab === "platform" ? "bg-blue-100 text-blue-600" : ""
-              }`}
-            >
-              Platform
-            </li>
-
-            <li
-              onClick={() => setActiveTab("notifications")}
-              className={`p-2 rounded cursor-pointer ${
-                activeTab === "notifications"
-                  ? "bg-blue-100 text-blue-600"
-                  : ""
-              }`}
-            >
-              Notifications
-            </li>
-
+            {["profile", "security", "platform", "notifications"].map((tab) => (
+              <li
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`p-2 rounded cursor-pointer ${
+                  activeTab === tab ? "bg-blue-100 text-blue-600" : ""
+                }`}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </li>
+            ))}
           </ul>
-        </div>
+        </Card>
 
         {/* CONTENT */}
-        <div className="flex-1 bg-white p-6 rounded-xl shadow">
+        <div className="flex-1 space-y-4">
 
           {/* 👤 PROFILE */}
           {activeTab === "profile" && (
-            <div className="space-y-4">
-              <h2 className="font-semibold text-lg">Profile Settings</h2>
+            <Card title="Profile Settings">
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={profile.name}
+                  onChange={(e) =>
+                    setProfile({ ...profile, name: e.target.value })
+                  }
+                  className="w-full border p-2 rounded"
+                  placeholder="Name"
+                />
 
-              <input
-                type="text"
-                value={profile.name}
-                onChange={(e) =>
-                  setProfile({ ...profile, name: e.target.value })
-                }
-                className="w-full border p-2 rounded"
-                placeholder="Name"
-              />
+                <input
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) =>
+                    setProfile({ ...profile, email: e.target.value })
+                  }
+                  className="w-full border p-2 rounded"
+                  placeholder="Email"
+                />
 
-              <input
-                type="email"
-                value={profile.email}
-                onChange={(e) =>
-                  setProfile({ ...profile, email: e.target.value })
-                }
-                className="w-full border p-2 rounded"
-                placeholder="Email"
-              />
-
-              <button className="bg-blue-600 text-white px-4 py-2 rounded">
-                Save Changes
-              </button>
-            </div>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded">
+                  Save Changes
+                </button>
+              </div>
+            </Card>
           )}
 
           {/* 🔐 SECURITY */}
           {activeTab === "security" && (
-            <div className="space-y-4">
-              <h2 className="font-semibold text-lg">Security</h2>
-
-              <input
-                type="password"
-                placeholder="Current Password"
-                className="w-full border p-2 rounded"
-                onChange={(e) =>
-                  setPassword({ ...password, current: e.target.value })
-                }
-              />
-
-              <input
-                type="password"
-                placeholder="New Password"
-                className="w-full border p-2 rounded"
-                onChange={(e) =>
-                  setPassword({ ...password, new: e.target.value })
-                }
-              />
-
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full border p-2 rounded"
-                onChange={(e) =>
-                  setPassword({ ...password, confirm: e.target.value })
-                }
-              />
-
-              <button className="bg-blue-600 text-white px-4 py-2 rounded">
-                Update Password
-              </button>
-            </div>
+            <Card title="Security Settings">
+              <div className="space-y-4">
+                <input
+                  type="password"
+                  placeholder="Current Password"
+                  className="w-full border p-2 rounded"
+                  onChange={(e) =>
+                    setPassword({ ...password, current: e.target.value })
+                  }
+                />
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  className="w-full border p-2 rounded"
+                  onChange={(e) =>
+                    setPassword({ ...password, new: e.target.value })
+                  }
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  className="w-full border p-2 rounded"
+                  onChange={(e) =>
+                    setPassword({ ...password, confirm: e.target.value })
+                  }
+                />
+                <button className="bg-blue-600 text-white px-4 py-2 rounded">
+                  Update Password
+                </button>
+              </div>
+            </Card>
           )}
 
           {/* 🏢 PLATFORM */}
           {activeTab === "platform" && (
-            <div className="space-y-4">
-              <h2 className="font-semibold text-lg">Platform Settings</h2>
+            <Card title="Platform Settings">
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={platform.siteName}
+                  onChange={(e) =>
+                    setPlatform({ ...platform, siteName: e.target.value })
+                  }
+                  className="w-full border p-2 rounded"
+                  placeholder="Site Name"
+                />
 
-              <input
-                type="text"
-                value={platform.siteName}
-                onChange={(e) =>
-                  setPlatform({ ...platform, siteName: e.target.value })
-                }
-                className="w-full border p-2 rounded"
-                placeholder="Site Name"
-              />
+                <select
+                  value={platform.currency}
+                  onChange={(e) =>
+                    setPlatform({ ...platform, currency: e.target.value })
+                  }
+                  className="w-full border p-2 rounded"
+                >
+                  <option value="₦">Naira (₦)</option>
+                  <option value="$">Dollar ($)</option>
+                </select>
 
-              <select
-                value={platform.currency}
-                onChange={(e) =>
-                  setPlatform({ ...platform, currency: e.target.value })
-                }
-                className="w-full border p-2 rounded"
-              >
-                <option value="₦">Naira (₦)</option>
-                <option value="$">Dollar ($)</option>
-              </select>
-
-              <button className="bg-blue-600 text-white px-4 py-2 rounded">
-                Save Platform Settings
-              </button>
-            </div>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded">
+                  Save Platform Settings
+                </button>
+              </div>
+            </Card>
           )}
 
           {/* 🔔 NOTIFICATIONS */}
           {activeTab === "notifications" && (
-            <div className="space-y-4">
-              <h2 className="font-semibold text-lg">Notifications</h2>
+            <Card title="Notification Settings">
+              <div className="space-y-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={notifications.email}
+                    onChange={() =>
+                      setNotifications({ ...notifications, email: !notifications.email })
+                    }
+                  />
+                  Email Notifications
+                </label>
 
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={notifications.email}
-                  onChange={() =>
-                    setNotifications({
-                      ...notifications,
-                      email: !notifications.email,
-                    })
-                  }
-                />
-                Email Notifications
-              </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={notifications.sms}
+                    onChange={() =>
+                      setNotifications({ ...notifications, sms: !notifications.sms })
+                    }
+                  />
+                  SMS Notifications
+                </label>
 
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={notifications.sms}
-                  onChange={() =>
-                    setNotifications({
-                      ...notifications,
-                      sms: !notifications.sms,
-                    })
-                  }
-                />
-                SMS Notifications
-              </label>
-
-              <button className="bg-blue-600 text-white px-4 py-2 rounded">
-                Save Preferences
-              </button>
-            </div>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded">
+                  Save Preferences
+                </button>
+              </div>
+            </Card>
           )}
 
         </div>

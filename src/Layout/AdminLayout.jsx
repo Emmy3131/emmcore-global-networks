@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import SideBar from "../Component/SideBar";
 import { Outlet } from "react-router-dom";
@@ -9,28 +9,30 @@ import BrandLogo from "../Component/BrandLogo";
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  if (isSidebarOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+  // ✅ Lock scroll when sidebar is open (mobile)
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "auto";
+  }, [isSidebarOpen]);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
 
-      {/* Mobile Overlay */}
+      {/* 🔳 Overlay (Mobile only) */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden backdrop-blur-sm"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
+      {/* 📌 Sidebar */}
       <div
-        className={`fixed z-50 top-0 left-0 h-full transform transition-transform duration-300
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0 lg:fixed`}
+        className={`
+          fixed lg:sticky top-0 left-0 h-screen z-50
+          transform transition-transform duration-300 ease-in-out
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+        `}
       >
         <SideBar
           links={adminLinks}
@@ -40,28 +42,30 @@ const AdminLayout = () => {
         />
       </div>
 
-      {/* Main Content */}
+      {/* 📦 Main Section */}
       <div className="flex-1 flex flex-col">
 
-        {/* Mobile Header */}
-        <header className="lg:hidden bg-white shadow p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-30">
-          
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="text-gray-700 text-xl"
-          >
-            <FaBars />
-          </button>
+        {/* 🔝 Top Header (Sticky) */}
+        <header className="md:hidden sticky top-0 z-30 bg-white border-b px-4 sm:px-6 py-3 flex items-center justify-between">
 
+          {/* Left */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="lg:hidden text-gray-700 text-xl"
+            >
+              <FaBars />
+            </button>
+          </div>
+
+          {/* Right */}
           <UserInfo isMobile />
-
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 pt-5 md:pt-0 bg-gray-900 overflow-y-hidden md:p-4 mt-14 lg:mt-0 flex flex-col lg:ml-64">
-          <Outlet />
+        {/* 🧾 Page Content */}
+        <main className="flex-1 bg-gray-900 overflow-y-auto overflow-x-hidden lg:mt-0">
+            <Outlet />
         </main>
-
       </div>
     </div>
   );

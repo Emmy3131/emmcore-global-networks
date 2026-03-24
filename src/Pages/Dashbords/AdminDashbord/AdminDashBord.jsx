@@ -1,300 +1,232 @@
 import { Users, ShoppingCart, Wallet, Wrench } from "lucide-react";
 import { FaEye, FaDownload } from "react-icons/fa";
+import Card from "../../../Component/Card";
+
+import {
+  LineChart,
+  Line,
+  XAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
+
+const StatusBadge = ({ status }) => {
+  const styles = {
+    Paid: "bg-green-100 text-green-600",
+    Active: "bg-green-100 text-green-600",
+    Pending: "bg-yellow-100 text-yellow-600",
+    Completed: "bg-blue-100 text-blue-600",
+  };
+
+  return (
+    <span className={`px-3 py-1 text-xs rounded-full font-medium ${styles[status]}`}>
+      {status}
+    </span>
+  );
+};
 
 const AdminOverview = () => {
   const stats = [
-    { title: "Total Users", value: "1,245", icon: Users },
-    { title: "Total Orders", value: "320", icon: ShoppingCart },
-    { title: "Revenue", value: "₦2,450,000", icon: Wallet },
-    { title: "Repair Requests", value: "54", icon: Wrench },
+    { title: "Users", value: "1,245", icon: Users, color: "from-blue-500 to-blue-600" },
+    { title: "Orders", value: "320", icon: ShoppingCart, color: "from-purple-500 to-purple-600" },
+    { title: "Revenue", value: "₦2.4M", icon: Wallet, color: "from-green-500 to-green-600" },
+    { title: "Repairs", value: "54", icon: Wrench, color: "from-orange-500 to-orange-600" },
+  ];
+
+  const chartData = [
+    { name: "Jan", sales: 400 },
+    { name: "Feb", sales: 700 },
+    { name: "Mar", sales: 1200 },
+    { name: "Apr", sales: 900 },
+    { name: "May", sales: 1600 },
+    { name: "Jun", sales: 2100 },
+  ];
+
+  const investments = [
+    { name: "John Doe", product: "Crypto Fund", amount: "₦500,000", qty: 5, status: "Active" },
+    { name: "Jane Smith", product: "Real Estate", amount: "₦1,200,000", qty: 2, status: "Pending" },
+  ];
+
+  const repairs = [
+    { user: "John Doe", device: "Laptop", issue: "Screen", date: "12 Mar", status: "Pending" },
+    { user: "Jane Smith", device: "Phone", issue: "Battery", date: "13 Mar", status: "Completed" },
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
-      {/* Page Title */}
-      <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">Dashboard Overview</h1>
+    <div className="w-full p-3 sm:p-6 space-y-6 bg-gray-100 min-h-screen">
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {stats.map((stat, index) => {
+      {/* Header */}
+      <h1 className="text-xl md:text-2xl font-bold text-gray-800">
+        Dashboard Overview
+      </h1>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {stats.map((stat, i) => {
           const Icon = stat.icon;
-
           return (
             <div
-              key={index}
-              className="bg-white shadow-md rounded-xl p-5 flex items-center justify-between"
+              key={i}
+              className={`p-4 rounded-xl text-white shadow bg-gradient-to-r ${stat.color}`}
             >
-              <div>
-                <p className="text-gray-500">{stat.title}</p>
-                <h2 className="text-2xl font-bold">{stat.value}</h2>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm opacity-80">{stat.title}</p>
+                  <h2 className="text-xl font-bold">{stat.value}</h2>
+                </div>
+                <Icon size={28} />
               </div>
-
-              <Icon className="text-blue-500" size={32} />
             </div>
           );
         })}
       </div>
 
-      {/* Charts + Orders */}
+      {/* Chart + Orders */}
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Sales Chart */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-semibold mb-4">Sales Analytics</h2>
 
-          <div className="h-64 flex items-center justify-center text-gray-400">
-            Chart will appear here
-          </div>
+        {/* Chart */}
+        <div className="bg-white p-4 rounded-xl shadow">
+          <h2 className="font-semibold mb-4 text-gray-700">Sales Analytics</h2>
+
+          <ResponsiveContainer width="100%" height={250}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <Tooltip />
+              <Line type="monotone" dataKey="sales" strokeWidth={3} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
 
-        {/* Recent Orders */}
-        <div className="bg-white p-3 rounded-xl shadow overflow-x-auto">
-          <h2 className="font-semibold mb-4">Recent Orders</h2>
+        {/* Orders */}
+        <div className="bg-white rounded-xl shadow overflow-hidden">
+          <h2 className="p-4 font-semibold">Recent Orders</h2>
 
-          <div className="bg-white p-3 sm:p-6 rounded-xl shadow overflow-x-auto">
-            <h2 className="font-semibold mb-4 text-sm sm:text-base">
-              Recent Orders
-            </h2>
-
-            <table className="w-full text-xs sm:text-sm text-left min-w-[700px]">
-              <thead>
-                <tr className="border-b text-gray-600">
-                  <th className="py-2">Name</th>
-                  <th>Type</th>
-
-                  {/* Hide on small screens */}
-                  <th className="hidden sm:table-cell">Item</th>
-                  <th className="hidden sm:table-cell">Qty</th>
-
-                  <th>Total</th>
-                  <th>Status</th>
-
-                  {/* Hide on very small screens */}
-                  <th className="hidden md:table-cell">Date</th>
-
-                  <th className="text-center">Actions</th>
+          {/* Desktop Table */}
+          <div className="hidden md:block">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-gray-600 text-xs uppercase">
+                <tr>
+                  <th className="px-6 py-3 text-left">Customer</th>
+                  <th className="px-6 py-3 text-left">Product</th>
+                  <th className="px-6 py-3 text-left">Amount</th>
+                  <th className="px-6 py-3 text-left">Status</th>
+                  <th className="px-6 py-3 text-left">Date</th>
+                  <th className="px-6 py-3 text-center">Action</th>
                 </tr>
               </thead>
 
-              <tbody>
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="py-2">John Doe</td>
-                  <td>Product</td>
-
-                  <td className="hidden sm:table-cell">iPhone 13</td>
-                  <td className="hidden sm:table-cell">2</td>
-
-                  <td>₦800,000</td>
-
-                  <td>
-                    <span className="text-green-500 font-medium text-xs sm:text-sm">
-                      Paid
-                    </span>
-                  </td>
-
-                  <td className="hidden md:table-cell">12 Mar 2026</td>
-
-                  {/* Actions */}
-                  <td className="flex justify-center gap-2 sm:gap-3 py-2">
-                    <button className="text-blue-500 hover:text-blue-700 text-sm">
-                      <FaEye />
-                    </button>
-
-                    <button className="text-gray-600 hover:text-black text-sm">
-                      <FaDownload />
-                    </button>
+              <tbody className="divide-y">
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-medium">John Doe</td>
+                  <td className="px-6 py-4 text-gray-500">iPhone 13</td>
+                  <td className="px-6 py-4">₦400,000</td>
+                  <td className="px-6 py-4"><StatusBadge status="Paid" /></td>
+                  <td className="px-6 py-4 text-gray-400">12 Mar</td>
+                  <td className="px-6 py-4 text-center">
+                    <FaEye className="inline mr-2 cursor-pointer" />
+                    <FaDownload className="inline cursor-pointer" />
                   </td>
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile */}
+          <div className="p-3 md:hidden">
+            <Card
+              title="John Doe"
+              subtitle="iPhone 13"
+              amount="₦400,000"
+              status={{ label: "Paid", type: "success" }}
+            />
           </div>
         </div>
       </div>
 
-      {/* Bottom Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        {/* Recent Investments */}
-        <div className="bg-white p-3 sm:p-6 rounded-xl shadow">
-          <h2 className="font-semibold mb-4 text-sm sm:text-base">
-            Recent Investments
-          </h2>
+      {/* Investments & Repairs */}
+      <div className="grid md:grid-cols-2 gap-6">
 
-          {/* ✅ MOBILE VIEW (Cards) */}
-          <div className="space-y-3 sm:hidden">
-            <div className="border rounded-lg p-3 shadow-sm">
-              <div className="flex justify-between">
-                <p className="font-medium">John Doe</p>
-                <span className="text-green-500 text-xs font-semibold">
-                  Active
-                </span>
-              </div>
+        {/* Investments */}
+        <div className="bg-white rounded-xl shadow overflow-hidden">
+          <h2 className="p-4 font-semibold">Investments</h2>
 
-              <p className="text-xs text-gray-500">Crypto Fund</p>
-
-              <div className="flex justify-between mt-2 text-sm">
-                <span>₦500,000</span>
-                <span>Qty: 5</span>
-              </div>
-            </div>
-
-            <div className="border rounded-lg p-3 shadow-sm">
-              <div className="flex justify-between">
-                <p className="font-medium">Jane Smith</p>
-                <span className="text-yellow-500 text-xs font-semibold">
-                  Pending
-                </span>
-              </div>
-
-              <p className="text-xs text-gray-500">Real Estate</p>
-
-              <div className="flex justify-between mt-2 text-sm">
-                <span>₦1,200,000</span>
-                <span>Qty: 2</span>
-              </div>
-            </div>
-          </div>
-
-          {/* ✅ DESKTOP/TABLET VIEW (Table) */}
-          <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead>
-                <tr className="border-b text-gray-600">
-                  <th className="py-2">Investor</th>
-                  <th>Product</th>
-                  <th>Amount</th>
-                  <th>Qty</th>
-                  <th>Status</th>
+          <div className="hidden md:block">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-xs uppercase">
+                <tr>
+                  <th className="px-6 py-3">Investor</th>
+                  <th className="px-6 py-3">Product</th>
+                  <th className="px-6 py-3">Amount</th>
+                  <th className="px-6 py-3">Qty</th>
+                  <th className="px-6 py-3">Status</th>
                 </tr>
               </thead>
 
-              <tbody>
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="py-2">John Doe</td>
-                  <td>Crypto Fund</td>
-                  <td>₦500,000</td>
-                  <td>5</td>
-                  <td>
-                    <span className="text-green-500 font-medium">Active</span>
-                  </td>
-                </tr>
-
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="py-2">Jane Smith</td>
-                  <td>Real Estate</td>
-                  <td>₦1,200,000</td>
-                  <td>2</td>
-                  <td>
-                    <span className="text-yellow-500 font-medium">Pending</span>
-                  </td>
-                </tr>
+              <tbody className="divide-y">
+                {investments.map((inv, i) => (
+                  <tr key={i} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">{inv.name}</td>
+                    <td className="px-6 py-4">{inv.product}</td>
+                    <td className="px-6 py-4">{inv.amount}</td>
+                    <td className="px-6 py-4">{inv.qty}</td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={inv.status} />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
+
+          <div className="p-3 md:hidden">
+            {investments.map((inv, i) => (
+              <Card key={i} title={inv.name} subtitle={inv.product} amount={inv.amount} />
+            ))}
+          </div>
         </div>
+
         {/* Repairs */}
-       
-        <div className="bg-white p-3 sm:p-6 rounded-xl shadow">
-          <h2 className="font-semibold mb-4 text-sm sm:text-base">
-            Recent Repairs
-          </h2>
+        <div className="bg-white rounded-xl shadow overflow-hidden">
+          <h2 className="p-4 font-semibold">Repairs</h2>
 
-          {/* ✅ MOBILE VIEW (Cards) */}
-          <div className="space-y-3 sm:hidden">
-            <div className="border rounded-lg p-3 shadow-sm">
-              <div className="flex justify-between items-center">
-                <p className="font-medium">John Doe</p>
-                <span className="text-yellow-500 text-xs font-semibold">
-                  Pending
-                </span>
-              </div>
-
-              <p className="text-xs text-gray-500">Laptop</p>
-              <p className="text-sm mt-1">Screen Replacement</p>
-
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-xs text-gray-400">12 Mar 2026</span>
-
-                <button className="text-blue-500 text-sm">
-                  <FaEye />
-                </button>
-              </div>
-            </div>
-
-            <div className="border rounded-lg p-3 shadow-sm">
-              <div className="flex justify-between items-center">
-                <p className="font-medium">Jane Smith</p>
-                <span className="text-green-500 text-xs font-semibold">
-                  Completed
-                </span>
-              </div>
-
-              <p className="text-xs text-gray-500">Phone</p>
-              <p className="text-sm mt-1">Battery Repair</p>
-
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-xs text-gray-400">13 Mar 2026</span>
-
-                <button className="text-blue-500 text-sm">
-                  <FaEye />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* ✅ DESKTOP/TABLET VIEW (Table) */}
-          <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead>
-                <tr className="border-b text-gray-600">
-                  <th className="py-2">User</th>
-                  <th>Device</th>
-                  <th>Issue</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th className="text-center">Action</th>
+          <div className="hidden md:block">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-xs uppercase">
+                <tr>
+                  <th className="px-6 py-3">User</th>
+                  <th className="px-6 py-3">Device</th>
+                  <th className="px-6 py-3">Issue</th>
+                  <th className="px-6 py-3">Date</th>
+                  <th className="px-6 py-3">Status</th>
                 </tr>
               </thead>
 
-              <tbody>
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="py-2">John Doe</td>
-                  <td>Laptop</td>
-                  <td>Screen Replacement</td>
-                  <td>12 Mar 2026</td>
-
-                  <td>
-                    <span className="text-yellow-500 font-medium">Pending</span>
-                  </td>
-
-                  <td className="text-center">
-                    <button className="text-blue-500 hover:text-blue-700">
-                      <FaEye />
-                    </button>
-                  </td>
-                </tr>
-
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="py-2">Jane Smith</td>
-                  <td>Phone</td>
-                  <td>Battery Repair</td>
-                  <td>13 Mar 2026</td>
-
-                  <td>
-                    <span className="text-green-500 font-medium">
-                      Completed
-                    </span>
-                  </td>
-
-                  <td className="text-center">
-                    <button className="text-blue-500 hover:text-blue-700">
-                      <FaEye />
-                    </button>
-                  </td>
-                </tr>
+              <tbody className="divide-y">
+                {repairs.map((r, i) => (
+                  <tr key={i} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">{r.user}</td>
+                    <td className="px-6 py-4">{r.device}</td>
+                    <td className="px-6 py-4">{r.issue}</td>
+                    <td className="px-6 py-4">{r.date}</td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={r.status} />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
+
+          <div className="p-3 md:hidden">
+            {repairs.map((r, i) => (
+              <Card key={i} title={r.user} subtitle={r.device} amount={r.issue} />
+            ))}
+          </div>
         </div>
       </div>
+
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { FaEye, FaTrash, FaTools } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
+import Card from "../../../Component/Card";
 
 const RepairManagement = () => {
-  // ✅ STATE
   const [repairs, setRepairs] = useState([
     {
       id: 1,
@@ -14,6 +14,7 @@ const RepairManagement = () => {
       date: "2026-03-15",
       cost: 25000,
       technician: "Mike",
+      description: "Customer reports cracked screen; needs replacement and testing",
     },
   ]);
 
@@ -21,9 +22,9 @@ const RepairManagement = () => {
   const [selectedRepair, setSelectedRepair] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // 🔍 SEARCH
+  // 🔍 FILTER
   const filteredRepairs = repairs.filter((r) =>
-    r.customerName.toLowerCase().includes(search.toLowerCase()),
+    r.customerName.toLowerCase().includes(search.toLowerCase())
   );
 
   // 👁 VIEW DETAILS
@@ -41,11 +42,13 @@ const RepairManagement = () => {
 
   // 🔄 UPDATE STATUS
   const handleStatusChange = (id, status) => {
-    setRepairs((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+    setRepairs((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, status } : r))
+    );
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-6">
       {/* HEADER */}
       <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
         Repair Management
@@ -60,57 +63,46 @@ const RepairManagement = () => {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* 📱 MOBILE CARDS */}
+      {/* 📱 MOBILE CARDS USING CARD COMPONENT */}
       <div className="grid gap-4 sm:hidden">
         {filteredRepairs.map((repair) => (
-          <div key={repair.id} className="bg-white p-4 rounded shadow">
-            <div className="flex justify-between">
-              <h2 className="font-semibold">{repair.customerName}</h2>
-
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  repair.status === "Completed"
-                    ? "bg-green-100 text-green-600"
-                    : repair.status === "In Progress"
-                      ? "bg-blue-100 text-blue-600"
-                      : repair.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-600"
-                        : "bg-red-100 text-red-600"
-                }`}
-              >
-                {repair.status}
-              </span>
-            </div>
-
-            <p className="text-sm text-gray-500">{repair.device}</p>
-            <p className="text-sm">{repair.issue}</p>
-
-            <div className="flex justify-between mt-2 text-sm">
-              <span>₦{repair.cost}</span>
-              <span>{repair.date}</span>
-            </div>
-
-            <div className="flex gap-3 mt-3 items-center">
-              <button onClick={() => handleView(repair)}>
-                <FaEye className="text-blue-500" />
-              </button>
-
-              <select
-                value={repair.status}
-                onChange={(e) => handleStatusChange(repair.id, e.target.value)}
-                className="text-xs border rounded px-1"
-              >
-                <option>Pending</option>
-                <option>In Progress</option>
-                <option>Completed</option>
-                <option>Cancelled</option>
-              </select>
-
-              <button onClick={() => handleDelete(repair.id)}>
-                <FaTrash className="text-red-500" />
-              </button>
-            </div>
-          </div>
+          <Card
+            key={repair.id}
+            title={repair.customerName}
+            subtitle={repair.device}
+            amount={`₦${repair.cost.toLocaleString()}`}
+            status={{
+              label: repair.status,
+              type:
+                repair.status === "Completed"
+                  ? "success"
+                  : repair.status === "In Progress"
+                  ? "info"
+                  : repair.status === "Pending"
+                  ? "warning"
+                  : "danger",
+            }}
+            children={
+              <div className="text-xs text-gray-500 space-y-1">
+                <p>Issue: {repair.issue}</p>
+                <p>Technician: {repair.technician}</p>
+                <p>Date: {repair.date}</p>
+                <p>Phone: {repair.phone}</p>
+              </div>
+            }
+            actions={[
+              {
+                icon: <FaEye />,
+                onClick: () => handleView(repair),
+                className: "bg-blue-100 text-blue-600",
+              },
+              {
+                icon: <FaTrash />,
+                onClick: () => handleDelete(repair.id),
+                className: "bg-red-100 text-red-600",
+              },
+            ]}
+          />
         ))}
       </div>
 
@@ -137,11 +129,9 @@ const RepairManagement = () => {
                   {repair.customerName}
                   <p className="text-xs text-gray-400">{repair.phone}</p>
                 </td>
-
                 <td>{repair.device}</td>
                 <td>{repair.issue}</td>
                 <td>₦{repair.cost}</td>
-
                 <td>
                   <select
                     value={repair.status}
@@ -156,16 +146,13 @@ const RepairManagement = () => {
                     <option>Cancelled</option>
                   </select>
                 </td>
-
                 <td>{repair.date}</td>
                 <td>{repair.technician}</td>
-
                 <td className="flex justify-center gap-3 p-4">
                   <FaEye
                     className="text-blue-500 cursor-pointer"
                     onClick={() => handleView(repair)}
                   />
-
                   <FaTrash
                     className="text-red-500 cursor-pointer"
                     onClick={() => handleDelete(repair.id)}
@@ -196,15 +183,12 @@ const RepairManagement = () => {
               <p>
                 <strong>Issue:</strong> {selectedRepair.issue}
               </p>
-
-              {/* ✅ DESCRIPTION (NEW) */}
               <div>
                 <p className="font-semibold">Customer Description:</p>
                 <div className="bg-gray-100 p-3 rounded-lg text-gray-700 text-sm mt-1">
                   {selectedRepair.description || "No description provided"}
                 </div>
               </div>
-
               <p>
                 <strong>Cost:</strong> ₦{selectedRepair.cost}
               </p>

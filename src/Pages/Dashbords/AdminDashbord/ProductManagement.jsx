@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import Card from "../../../Component/Card";
 
 const ProductManagement = () => {
   // ✅ STATE
@@ -99,7 +100,7 @@ const ProductManagement = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-4">
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
@@ -126,43 +127,35 @@ const ProductManagement = () => {
       {/* MOBILE CARDS */}
       <div className="grid gap-4 sm:hidden">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="bg-white p-4 rounded shadow">
-            <div className="flex gap-3 items-center">
-              <img src={product.image} className="w-12 h-12 rounded" />
-
-              <div className="flex-1">
-                <h2>{product.name}</h2>
-                <p className="text-xs text-gray-500">{product.category}</p>
-              </div>
-
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  product.status === "Available"
-                    ? "bg-green-100 text-green-600"
-                    : "bg-red-100 text-red-600"
-                }`}
-              >
-                {product.status}
-              </span>
-            </div>
-
-            <div className="flex justify-between mt-2 text-sm">
-              <span>₦{product.price}</span>
-              <span>Qty: {product.quantity}</span>
-            </div>
-
-            <div className="flex gap-2 mt-3">
-              <button onClick={() => handleView(product)}>
-                <FaEye />
-              </button>
-              <button onClick={() => handleEdit(product)}>
-                <FaEdit />
-              </button>
-              <button onClick={() => handleDelete(product.id)}>
-                <FaTrash />
-              </button>
-            </div>
-          </div>
+          <Card
+            key={product.id}
+            title={product.name}
+            subtitle={product.category}
+            image={product.image}
+            amount={`₦${product.price}`}
+            quantity={product.quantity}
+            status={{
+              label: product.status,
+              type: product.status === "Available" ? "success" : "error",
+            }}
+            actions={[
+              {
+                icon: <FaEye />,
+                onClick: () => handleView(product),
+                className: "text-blue-500",
+              },
+              {
+                icon: <FaEdit />,
+                onClick: () => handleEdit(product),
+                className: "text-yellow-500",
+              },
+              {
+                icon: <FaTrash />,
+                onClick: () => handleDelete(product.id),
+                className: "text-red-500",
+              },
+            ]}
+          />
         ))}
       </div>
 

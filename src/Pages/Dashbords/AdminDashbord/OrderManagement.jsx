@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
+import Card from "../../../Component/Card";
 
 const OrderManagement = () => {
   // ✅ STATE
@@ -58,7 +59,7 @@ const OrderManagement = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 space-y-4">
+    <div className="w-full mx-auto p-3 sm:p-6 space-y-4">
 
       {/* HEADER */}
       <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
@@ -77,53 +78,30 @@ const OrderManagement = () => {
       {/* ✅ MOBILE VIEW */}
       <div className="grid gap-4 sm:hidden">
         {filteredOrders.map((order) => (
-          <div key={order.id} className="bg-white p-4 rounded shadow">
-
-            <div className="flex justify-between">
-              <h2 className="font-semibold">{order.name}</h2>
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  order.status === "Paid"
-                    ? "bg-green-100 text-green-600"
-                    : order.status === "Pending"
-                    ? "bg-yellow-100 text-yellow-600"
-                    : "bg-red-100 text-red-600"
-                }`}
-              >
-                {order.status}
-              </span>
-            </div>
-
-            <p className="text-sm text-gray-500">{order.item}</p>
-
-            <div className="flex justify-between mt-2 text-sm">
-              <span>₦{order.total.toLocaleString()}</span>
-              <span>Qty: {order.quantity}</span>
-            </div>
-
-            <div className="flex gap-3 mt-3 items-center">
-              <button onClick={() => handleView(order)}>
-                <FaEye className="text-blue-500" />
-              </button>
-
-              <select
-                value={order.status}
-                onChange={(e) =>
-                  handleStatusChange(order.id, e.target.value)
-                }
-                className="text-xs border rounded px-1"
-              >
-                <option>Paid</option>
-                <option>Pending</option>
-                <option>Cancelled</option>
-              </select>
-
-              <button onClick={() => handleDelete(order.id)}>
-                <FaTrash className="text-red-500" />
-              </button>
-            </div>
-
-          </div>
+          <Card
+            key={order.id}
+            title={order.name}
+            subtitle={order.type}
+            description={order.item}
+            amount={`₦${order.total.toLocaleString()}`}
+            quantity={order.quantity}
+            status={{
+              label: order.status,
+              type: order.status === "Paid" ? "success" : order.status === "Pending" ? "warning" : "error",
+            }}
+            actions={[
+              {
+                icon: <FaEye />,
+                onClick: () => handleView(order),
+                className: "text-blue-500",
+              },
+              {
+                icon: <FaTrash />,
+                onClick: () => handleDelete(order.id),
+                className: "text-red-500",
+              },
+            ]}
+          />
         ))}
       </div>
 
