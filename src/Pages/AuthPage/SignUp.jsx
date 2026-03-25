@@ -43,9 +43,11 @@ const Signup = () => {
             </label>
         </span>
 
-        <button className="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+        <Link to="/dashboard">
+          <button className="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
           Sign Up
         </button>
+        </Link>
 
       </form>
 

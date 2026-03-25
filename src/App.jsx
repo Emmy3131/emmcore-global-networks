@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/LandingPage/Home";
 import GuestLayout from "./Layout/QuestLayout";
 import AdminLayout from "./Layout/AdminLayout";
+import UserLayout from "./Layout/UserLayout";
 import Shop from "./Pages/ShopModel/Shop";
 import RepairsPage from "./Pages/RepairServiceModel/RepairPage";
 import WebServicesControl from "./Pages/WebServicesPage/WebServicesControl";
@@ -23,6 +24,17 @@ import UserManagement from "./Pages/Dashbords/AdminDashbord/UserManagement";
 import WalletAndTransactions from "./Pages/Dashbords/AdminDashbord/WalletAndTransactions";
 import ReportAndAnalytics from "./Pages/Dashbords/AdminDashbord/ReportAndAnalytics";
 import Settings from "./Pages/Dashbords/AdminDashbord/Settings";
+
+// User pages
+import UserDashbordOverview from "./Pages/Dashbords/UsersDashbord/UserDashbordOverview";
+import Products from "./Pages/Dashbords/UsersDashbord/Products";
+import FixeYourSmartPhones from "./Pages/Dashbords/UsersDashbord/FixeYourSmartPhones";
+import WebServices from "./Pages/Dashbords/UsersDashbord/WebServices";
+import OwnAProduct from "./Pages/Dashbords/UsersDashbord/OwnAProduct";
+import MyProducts from "./Pages/Dashbords/UsersDashbord/OwnedProducts";
+import Wallet from "./Pages/Dashbords/UsersDashbord/Wallet";
+import Notifications from "./Pages/Dashbords/UsersDashbord/Notifications";
+import UserProfile from "./Pages/Dashbords/UsersDashbord/UserProfile";
 
 const App = () => {
   return (
@@ -55,6 +67,18 @@ const App = () => {
           <Route path="/admin/reports" element={<ReportAndAnalytics />} />
           <Route path="/admin/settings" element={<Settings />} />
         </Route> 
+
+        <Route element={<UserLayout />}>
+          <Route path="/userDashboard" element={<UserDashbordOverview />} />
+          <Route path="/userDashboard/products" element={<Products />} />
+          <Route path="/userDashboard/repairs" element={<FixeYourSmartPhones />} />
+          <Route path="/userDashboard/web-services" element={<WebServices />} />
+          <Route path="/userDashboard/own-a-product" element={<OwnAProduct />} />
+          <Route path="/my-investments" element={<MyProducts />} />
+          <Route path="/userDashboard/wallet" element={<Wallet />} />
+          <Route path="/dashboard/notifications" element={<Notifications />} />
+          <Route path="/dashboard/profile" element={<UserProfile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
