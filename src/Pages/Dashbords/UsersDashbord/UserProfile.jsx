@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { FaUser, FaLock, FaCheckCircle } from "react-icons/fa";
+import {FaUser, FaLock, FaCheckCircle, FaIdCard,  FaCopy} from "react-icons/fa";
 import Card from "../../../Component/Card";
+
 
 const UserProfile = () => {
 
-  // ✅ STATES
+  // ✅ ACTIVE TAB
+  const [activeTab, setActiveTab] = useState("profile");
+
+  // PROFILE DATA
   const [profile, setProfile] = useState({
     name: "John Doe",
-    email: "john@example.com",
-    phone: "08012345678",
+    email: "john@mail.com",
+    phone: "",
+    address: "",
   });
 
   const [password, setPassword] = useState({
@@ -17,191 +22,329 @@ const UserProfile = () => {
     confirm: "",
   });
 
-  const [verification, setVerification] = useState({
-    emailVerified: true,
-    phoneVerified: false,
-  });
-
-  // ✅ HANDLERS
-  const handleProfileUpdate = (e) => {
-    e.preventDefault();
-    console.log("Updated Profile:", profile);
-    alert("Profile updated successfully");
+  const verification = {
+    email: true,
+    phone: false,
+    identity: false,
   };
 
-  const handlePasswordChange = (e) => {
-    e.preventDefault();
+  /* ------------------ COMPONENT SECTIONS ------------------ */
+const ProfileSection = () => {
+    const referralLink = `https://emmcore.com/ref/${profile.email}`;
 
-    if (password.new !== password.confirm) {
-      return alert("Passwords do not match");
-    }
-
-    console.log("Password Change:", password);
-    alert("Password updated successfully");
-
-    setPassword({ current: "", new: "", confirm: "" });
+  const copyReferral = () => {
+    navigator.clipboard.writeText(referralLink);
+    alert("Referral link copied!");
   };
+    return (
+  <Card title="Profile Information">
 
-  const handleVerifyPhone = () => {
-    alert("Verification code sent to phone");
-  };
+      <form className="space-y-6">
 
-  return (
-    <div className="w-full mx-auto p-3 sm:p-6 space-y-6">
-
-      {/* HEADER */}
-      <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
-        My Profile
-      </h1>
-
-      {/* 👤 PROFILE INFO */}
-      <Card title="Profile Information">
-
-        <form onSubmit={handleProfileUpdate} className="space-y-4">
-
-          {/* Avatar */}
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-              <FaUser />
-            </div>
-
-            <button
-              type="button"
-              className="text-sm bg-gray-100 px-3 py-1 rounded"
-            >
-              Change Avatar
-            </button>
+        {/* PROFILE IMAGE */}
+        <div className="flex items-center gap-4">
+          <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-sm">
+            Photo
           </div>
 
+          <button
+            type="button"
+            className="text-sm bg-gray-100 px-3 py-1 rounded hover:bg-gray-200"
+          >
+            Upload Photo
+          </button>
+        </div>
+
+        {/* USER ID */}
+        <div>
+          <label className="text-sm text-gray-500">User ID</label>
+          <input
+            type="text"
+            value="EMM-10293"
+            readOnly
+            className="input bg-gray-100"
+          />
+        </div>
+
+        {/* FULL NAME */}
+        <div>
+          <label className="text-sm text-gray-500">Full Name</label>
           <input
             type="text"
             value={profile.name}
             onChange={(e) =>
               setProfile({ ...profile, name: e.target.value })
             }
-            className="w-full border p-2 rounded"
-            placeholder="Full Name"
+            className="input"
           />
+        </div>
 
+        {/* EMAIL */}
+        <div>
+          <label className="text-sm text-gray-500">Email</label>
           <input
             type="email"
             value={profile.email}
-            onChange={(e) =>
-              setProfile({ ...profile, email: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-            placeholder="Email"
+            readOnly
+            className="input bg-gray-100"
           />
+        </div>
 
+        {/* PHONE */}
+        <div>
+          <label className="text-sm text-gray-500">Phone Number</label>
           <input
             type="text"
             value={profile.phone}
             onChange={(e) =>
               setProfile({ ...profile, phone: e.target.value })
             }
-            className="w-full border p-2 rounded"
-            placeholder="Phone Number"
+            className="input"
+            placeholder="Enter phone number"
           />
+        </div>
 
-          <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">
-            Save Profile
-          </button>
-
-        </form>
-      </Card>
-
-      {/* 🔐 PASSWORD */}
-      <Card title="Change Password">
-
-        <form onSubmit={handlePasswordChange} className="space-y-4">
-
+        {/* ADDRESS */}
+        <div>
+          <label className="text-sm text-gray-500">Address</label>
           <input
-            type="password"
-            placeholder="Current Password"
-            value={password.current}
+            type="text"
+            value={profile.address}
             onChange={(e) =>
-              setPassword({ ...password, current: e.target.value })
+              setProfile({ ...profile, address: e.target.value })
             }
-            className="w-full border p-2 rounded"
+            className="input"
+            placeholder="Enter address"
           />
+        </div>
 
-          <input
-            type="password"
-            placeholder="New Password"
-            value={password.new}
-            onChange={(e) =>
-              setPassword({ ...password, new: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+        {/* REFERRAL LINK */}
+        <div>
+          <label className="text-sm text-gray-500">
+            Referral Link
+          </label>
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={password.confirm}
-            onChange={(e) =>
-              setPassword({ ...password, confirm: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={referralLink}
+              readOnly
+              className="input flex-1 bg-gray-100"
+            />
 
-          <button className="bg-red-500 text-white px-4 py-2 rounded w-full flex items-center justify-center gap-2">
-            <FaLock /> Update Password
-          </button>
-
-        </form>
-      </Card>
-
-      {/* ✅ VERIFICATION */}
-      <Card title="Verification Status">
-
-        <div className="space-y-4">
-
-          {/* EMAIL */}
-          <div className="flex justify-between items-center bg-gray-50 p-3 rounded">
-            <div>
-              <p className="font-medium text-sm">Email Verification</p>
-              <p className="text-xs text-gray-500">{profile.email}</p>
-            </div>
-
-            <span
-              className={`text-xs px-2 py-1 rounded ${
-                verification.emailVerified
-                  ? "bg-green-100 text-green-600"
-                  : "bg-red-100 text-red-600"
-              }`}
+            <button
+              type="button"
+              onClick={copyReferral}
+              className="px-3 bg-blue-600 text-white rounded flex items-center gap-2"
             >
-              {verification.emailVerified ? "Verified" : "Not Verified"}
-            </span>
+              <FaCopy /> Copy
+            </button>
           </div>
+        </div>
 
-          {/* PHONE */}
-          <div className="flex justify-between items-center bg-gray-50 p-3 rounded">
-            <div>
-              <p className="font-medium text-sm">Phone Verification</p>
-              <p className="text-xs text-gray-500">{profile.phone}</p>
-            </div>
+        {/* SAVE BUTTON */}
+        <button className="btn-primary w-full">
+          Save Changes
+        </button>
 
-            {verification.phoneVerified ? (
-              <span className="text-xs px-2 py-1 rounded bg-green-100 text-green-600 flex items-center gap-1">
-                <FaCheckCircle /> Verified
-              </span>
-            ) : (
-              <button
-                onClick={handleVerifyPhone}
-                className="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded"
-              >
-                Verify Now
-              </button>
-            )}
-          </div>
+      </form>
+
+    </Card>
+    );
+    };
+
+
+  const CompleteProfile = () => (
+    <Card title="Complete Your Profile">
+      <div className="space-y-4">
+
+        <input
+          type="text"
+          placeholder="Phone Number"
+          value={profile.phone}
+          onChange={(e) =>
+            setProfile({ ...profile, phone: e.target.value })
+          }
+          className="input"
+        />
+
+        <input
+          type="text"
+          placeholder="Address"
+          value={profile.address}
+          onChange={(e) =>
+            setProfile({ ...profile, address: e.target.value })
+          }
+          className="input"
+        />
+
+        <button className="btn-primary w-full">
+          Update Profile
+        </button>
+
+      </div>
+    </Card>
+  );
+
+  const PasswordSection = () => (
+    <Card title="Change Password">
+      <form className="space-y-4">
+
+        <input
+          type="password"
+          placeholder="Current Password"
+          className="input"
+        />
+
+        <input
+          type="password"
+          placeholder="New Password"
+          className="input"
+        />
+
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          className="input"
+        />
+
+        <button className="bg-red-500 text-white w-full py-2 rounded">
+          Update Password
+        </button>
+
+      </form>
+    </Card>
+  );
+
+  const VerificationSection = () => (
+    <Card title="Account Verification">
+
+      <div className="space-y-4">
+
+        <VerificationItem
+          title="Email Verification"
+          verified={verification.email}
+        />
+
+        <VerificationItem
+          title="Phone Verification"
+          verified={verification.phone}
+        />
+
+        <VerificationItem
+          title="Identity Verification"
+          verified={verification.identity}
+        />
+
+      </div>
+
+    </Card>
+  );
+
+  const VerificationItem = ({ title, verified }) => (
+    <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg">
+      <p className="text-sm font-medium">{title}</p>
+
+      {verified ? (
+        <span className="text-green-600 text-sm flex gap-1 items-center">
+          <FaCheckCircle /> Verified
+        </span>
+      ) : (
+        <button className="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded">
+          Verify
+        </button>
+      )}
+    </div>
+  );
+
+  /* ------------------ RENDER SWITCH ------------------ */
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "profile":
+        return <ProfileSection />;
+      case "complete":
+        return <CompleteProfile />;
+      case "password":
+        return <PasswordSection />;
+      case "verification":
+        return <VerificationSection />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="w-full p-3 sm:p-6">
+
+      <h1 className="text-xl font-bold text-white mb-6">
+        Account Settings
+      </h1>
+
+      <div className="grid lg:grid-cols-4 gap-6">
+
+        {/* ✅ LEFT SETTINGS MENU */}
+        <div className="lg:col-span-1">
+
+          <Card>
+
+            <SettingsItem
+              icon={<FaUser />}
+              label="Profile"
+              active={activeTab === "profile"}
+              onClick={() => setActiveTab("profile")}
+            />
+
+            <SettingsItem
+              icon={<FaIdCard />}
+              label="Complete Profile"
+              active={activeTab === "complete"}
+              onClick={() => setActiveTab("complete")}
+            />
+
+            <SettingsItem
+              icon={<FaLock />}
+              label="Password"
+              active={activeTab === "password"}
+              onClick={() => setActiveTab("password")}
+            />
+
+            <SettingsItem
+              icon={<FaCheckCircle />}
+              label="Verification"
+              active={activeTab === "verification"}
+              onClick={() => setActiveTab("verification")}
+            />
+
+          </Card>
 
         </div>
 
-      </Card>
+        {/* ✅ RIGHT CONTENT */}
+        <div className="lg:col-span-3">
+          {renderContent()}
+        </div>
+
+      </div>
 
     </div>
   );
 };
+
+/* ------------------ MENU ITEM ------------------ */
+
+const SettingsItem = ({ icon, label, active, onClick }) => (
+  <div
+    onClick={onClick}
+    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition
+      ${active
+        ? "bg-blue-600 text-white"
+        : "hover:bg-gray-100 text-gray-700"
+      }`}
+  >
+    {icon}
+    <span className="text-sm font-medium">{label}</span>
+  </div>
+);
 
 export default UserProfile;
