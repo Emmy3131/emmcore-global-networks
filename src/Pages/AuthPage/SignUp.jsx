@@ -4,12 +4,11 @@ import { useState } from "react";
 const Signup = () => {
   const navigate = useNavigate();
 
-  const baseUrl =
-    "https://emm-core-global-networks-updated.vercel.app/api/v1/users/signup";
+  const baseUrl = "https://emm-core-global-networks-updated.vercel.app/api/v1/users/signup";
 
   const [formData, setFormData] = useState({
     fullName: "",
-    phoneNumber: "",
+    phone: "",
     country: "",
     address: "",
     email: "",
@@ -33,54 +32,40 @@ const Signup = () => {
   /* =========================
         HANDLE SUBMIT
   ==========================*/
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setError("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-  try {
-    const res = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch(baseUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const result = await res.json();
-
-    // ✅ Check HTTP response first
-    if (!res.ok) {
-      throw new Error(result.message || "Signup failed");
+      // ✅ Check API response
+      if (res.data.status === "success") {
+        console.log("User registered successfully", res.data);
+        alert("Signup successful");
+        navigate("/userDashboard");
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    // ✅ Check API response
-    if (result.status === "success") {
-      // Save token
-      localStorage.setItem("token", result.token);
-
-      alert("Signup successful");
-
-      navigate("/userDashboard");
-    }
-  } catch (err) {
-    console.error(err);
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">
-        Create Account
-      </h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
 
       {error && (
-        <p className="text-red-500 text-sm mb-3 text-center">
-          {error}
-        </p>
+        <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
       )}
 
       <form className="space-y-4" onSubmit={handleSubmit}>
@@ -95,7 +80,7 @@ const handleSubmit = async (e) => {
 
         <input
           name="phoneNumber"
-          value={formData.phoneNumber}
+          value={formData.phone}
           onChange={handleChange}
           type="tel"
           placeholder="Phone Number"
@@ -148,8 +133,8 @@ const handleSubmit = async (e) => {
         />
 
         <label className="text-sm flex items-center">
-          <input type="checkbox" required className="mr-2" />
-          I agree to the Terms of Service
+          <input type="checkbox" required className="mr-2" />I agree to the
+          Terms of Service
         </label>
 
         {/* ✅ DO NOT wrap button with Link */}
