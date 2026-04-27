@@ -2,6 +2,57 @@ import { Link } from "react-router-dom";
 import { useState, useNavigate } from "react";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const baseUrl = "https://emm-core-global-networks-updated.vercel.app/api/v1/users/login";
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  /* =========================
+        HANDLE INPUT CHANGE
+  ==========================*/
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+  /* =========================
+        HANDLE SUBMIT
+  ==========================*/
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch(baseUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }); 
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+      if (data.status === "success") {
+        console.log("User logged in successfully", data);
+        alert("Login successful");
+        navigate("/userDashboard");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.message);
+      alert(`Login failed: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
  
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
@@ -10,24 +61,28 @@ const Login = () => {
         Login
       </h2>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
 
         <input
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
           type="email"
           placeholder="Email"
           className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
         <input
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
           type="password"
           placeholder="Password"
           className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
-       <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
-         <Link to="/userDashboard" >
+       <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
           Login
-        </Link>
        </button>
 
       </form>
