@@ -36,17 +36,17 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       }); 
-      // const data = await res.json();
-      if (res.data.status === "success") {
+      const data = await res.json();
+      if (data.status === "success") {
         // 🔐 Save auth data
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.data.user));
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
         toast.success("Login successful!");
-        console.log("Login successful", res.data);
+        console.log("Login successful", data);
 
-        if(res.data.data.user.role === 'user'){
+        if(data.data.user.role === 'user'){
            navigate("/userDashboard");
-        }else if(res.data.data.user.role === 'admin'){
+        }else if(data.data.user.role === 'admin'){
            navigate("/admin/dashboard");
         }
        
