@@ -32,34 +32,40 @@ const Signup = () => {
   /* =========================
         HANDLE SUBMIT
   ==========================*/
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      const res = await fetch(baseUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  try {
+    const res = await fetch(baseUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-      // ✅ Check API response
-      const data = await res.json();
-      if (data.status === "success") {
-        console.log("User registered successfully", data);
-        alert("Signup successful");
-        navigate("/userDashboard");
-      }
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    const data = await res.json();
+
+    // ✅ IMPORTANT FIX
+    if (!res.ok) {
+      throw new Error(data.message || "Signup failed");
     }
-  };
+
+    if (data.status === "success") {
+      console.log("User registered successfully", data);
+      alert("Signup successful");
+      navigate("/userDashboard");
+    }
+
+  } catch (err) {
+    console.error("Error occurred while signing up:", err);
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
