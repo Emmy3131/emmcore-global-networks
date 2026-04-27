@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useState, useNavigate } from "react";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
