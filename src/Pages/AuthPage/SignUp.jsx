@@ -7,7 +7,7 @@ const Signup = () => {
   const baseUrl = "https://emm-core-global-networks-updated.vercel.app/api/v1/users/signup";
 
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     phone: "",
     country: "",
     address: "",
@@ -70,8 +70,8 @@ const Signup = () => {
 
       <form className="space-y-4" onSubmit={handleSubmit}>
         <input
-          name="fullName"
-          value={formData.fullName}
+          name="name"
+          value={formData.name}
           onChange={handleChange}
           type="text"
           placeholder="Full Name"
@@ -79,7 +79,7 @@ const Signup = () => {
         />
 
         <input
-          name="phoneNumber"
+          name="phone"
           value={formData.phone}
           onChange={handleChange}
           type="tel"
