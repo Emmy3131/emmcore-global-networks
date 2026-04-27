@@ -36,14 +36,20 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       }); 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-      if (data.status === "success") {
-        console.log("User logged in successfully", data);
-        alert("Login successful");
-        navigate("/userDashboard");
+      // const data = await res.json();
+      if (res.data.status === "success") {
+        // 🔐 Save auth data
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.data.user));
+        toast.success("Login successful!");
+        console.log("Login successful", res.data);
+
+        if(res.data.data.user.role === 'user'){
+           navigate("/userDashboard");
+        }else if(res.data.data.user.role === 'admin'){
+           navigate("/admin/dashboard");
+        }
+       
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -81,8 +87,11 @@ const Login = () => {
           className="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
-       <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
-          Login
+       <button
+         type="submit" 
+         disabled={loading}
+         className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+        {loading ? "Logging In..." : "Login"}
        </button>
 
       </form>
