@@ -13,7 +13,7 @@ const Signup = () => {
     address: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    passwordConfirm: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -47,8 +47,9 @@ const Signup = () => {
       });
 
       // ✅ Check API response
-      if (res.data.status === "success") {
-        console.log("User registered successfully", res.data);
+      const data = await res.json();
+      if (data.status === "success") {
+        console.log("User registered successfully", data);
         alert("Signup successful");
         navigate("/userDashboard");
       }
@@ -124,8 +125,8 @@ const Signup = () => {
         />
 
         <input
-          name="confirmPassword"
-          value={formData.confirmPassword}
+          name="passwordConfirm"
+          value={formData.passwordConfirm}
           onChange={handleChange}
           type="password"
           placeholder="Confirm Password"
