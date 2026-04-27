@@ -24,7 +24,7 @@ const Login = () => {
   /* =========================
         HANDLE SUBMIT
   ==========================*/
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -61,7 +61,7 @@ const Login = () => {
         Login
       </h2>
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleLogin}>
 
         <input
           name="email"
