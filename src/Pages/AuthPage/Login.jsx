@@ -25,39 +25,49 @@ const Login = () => {
         HANDLE SUBMIT
   ==========================*/
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch(baseUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }); 
-      const data = await res.json();
-      if (data.status === "success") {
-        // 🔐 Save auth data
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
-        console.log("Login successful", data);
-        // navigate("/userDashboard");
-        if(data.user.role === 'user'){
-           navigate("/userDashboard");
-        }else if(data.user.role === 'admin'){
-           navigate("/admin/dashboard");
-        }
-       
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError(err.message);
-      alert(`Login failed: ${err.message}`);
-    } finally {
-      setLoading(false);
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+
+  try {
+    const res = await fetch(baseUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Login failed");
     }
-  };
+
+    if (data.status === "success") {
+      const user = data.data.user;
+
+      // 🔐 Save auth data
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      console.log("Login successful", data);
+
+      // ✅ Role based redirect
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/userDashboard");
+      }
+    }
+  } catch (err) {
+    console.error("Login error:", err);
+    setError(err.message);
+    alert(`Login failed: ${err.message}`);
+  } finally {
+    setLoading(false);
+  }
+};
  
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
