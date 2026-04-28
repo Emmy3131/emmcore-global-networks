@@ -50,7 +50,7 @@ const Login = () => {
 
       // 🔐 Save auth data
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify());
 
       console.log("Login successful", data);
 
