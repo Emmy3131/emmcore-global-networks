@@ -3,7 +3,8 @@ import UserInfo from "./UserInfo";
 import { CiLogout } from "react-icons/ci";
 
 const Sidebar = ({ links, title, isOpen, onClose }) => {
-  const baseUrl = "https://emm-core-global-networks-updated.vercel.app/api/v1/users/logout";
+  const baseUrl =
+    "https://emm-core-global-networks-updated.vercel.app/api/v1/users/logout";
 
   const handleLogout = async () => {
     try {
@@ -17,7 +18,8 @@ const Sidebar = ({ links, title, isOpen, onClose }) => {
       });
       if (res.ok) {
         localStorage.removeItem("token");
-        window.location.href = "/login";
+        localStorage.removeItem("user");
+        navigate("/auth");
       }
     } catch (error) {
       console.error("Error logging out:", error);
@@ -54,7 +56,10 @@ const Sidebar = ({ links, title, isOpen, onClose }) => {
             );
           })}
 
-          <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition text-left bg-red-500 mb-5" onClick={handleLogout}>
+          <button
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition text-left bg-red-500 mb-5"
+            onClick={handleLogout}
+          >
             <CiLogout className="text-lg" />
             <span>Logout</span>
           </button>
