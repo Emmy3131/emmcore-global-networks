@@ -44,11 +44,11 @@ const Login = () => {
         console.log("Login successful", data);
         navigate("/userDashboard");
 
-        // if(data.data.user.role === 'user'){
-        //    navigate("/userDashboard");
-        // }else if(data.data.user.role === 'admin'){
-        //    navigate("/admin/dashboard");
-        // }
+        if(data.user.role === 'user'){
+           navigate("/userDashboard");
+        }else if(data.user.role === 'admin'){
+           navigate("/admin/dashboard");
+        }
        
       }
     } catch (err) {
