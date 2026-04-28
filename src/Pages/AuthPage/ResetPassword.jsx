@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-
 const ResetPassword = () => {
   const navigate = useNavigate();
   const { token } = useParams();
@@ -11,6 +10,7 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -31,19 +31,16 @@ const ResetPassword = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(
-        `${baseUrl}/auth/resetPassword/${token}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            password,
-            passwordConfirm,
-          }),
-        }
-      );
+      const res = await fetch(`${baseUrl}/auth/resetPassword/${token}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password,
+          passwordConfirm,
+        }),
+      });
 
       const data = await res.json();
 
@@ -57,7 +54,6 @@ const ResetPassword = () => {
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-
     } catch (err) {
       setError(err.message);
     } finally {
@@ -68,12 +64,8 @@ const ResetPassword = () => {
   // ================= UI =================
   return (
     <div className=" flex items-center justify-center  px-4">
-
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Reset Password
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Reset Password</h2>
 
         {/* ERROR MESSAGE */}
         {error && (
@@ -90,7 +82,6 @@ const ResetPassword = () => {
         )}
 
         <form onSubmit={handleResetPassword} className="space-y-5">
-
           {/* NEW PASSWORD */}
           <div className="relative">
             <label className="block text-sm font-medium mb-1">
@@ -114,18 +105,25 @@ const ResetPassword = () => {
           </div>
 
           {/* CONFIRM PASSWORD */}
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium mb-1">
               Confirm New Password
             </label>
 
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               required
               className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
             />
+
+            <span
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              className="absolute right-4 top-10 cursor-pointer text-gray-500"
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
 
           {/* SUBMIT BUTTON */}
@@ -148,7 +146,6 @@ const ResetPassword = () => {
             Login
           </Link>
         </p>
-
       </div>
     </div>
   );
