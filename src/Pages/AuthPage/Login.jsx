@@ -42,6 +42,7 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.data.user));
         console.log("Login successful", data);
+        navigate("/userDashboard");
 
         // if(data.data.user.role === 'user'){
         //    navigate("/userDashboard");
