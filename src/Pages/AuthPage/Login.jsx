@@ -41,7 +41,6 @@ const Login = () => {
         // 🔐 Save auth data
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.data.user));
-        toast.success("Login successful!");
         console.log("Login successful", data);
 
         if(data.data.user.role === 'user'){
