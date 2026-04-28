@@ -43,11 +43,11 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(data.data.user));
         console.log("Login successful", data);
 
-        if(data.data.user.role === 'user'){
-           navigate("/userDashboard");
-        }else if(data.data.user.role === 'admin'){
-           navigate("/admin/dashboard");
-        }
+        // if(data.data.user.role === 'user'){
+        //    navigate("/userDashboard");
+        // }else if(data.data.user.role === 'admin'){
+        //    navigate("/admin/dashboard");
+        // }
        
       }
     } catch (err) {
