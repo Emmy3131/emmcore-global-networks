@@ -46,7 +46,7 @@ const Login = () => {
     }
 
     if (data.status === "success") {
-      const user = data.data.user;
+      
 
       // 🔐 Save auth data
       localStorage.setItem("token", data.token);
@@ -55,7 +55,7 @@ const Login = () => {
       console.log("Login successful", data);
 
       // ✅ Role based redirect
-      if (user.role === "admin") {
+      if (data.data.role === "admin") {
         navigate("/admin/dashboard");
       } else {
         navigate("/userDashboard");
