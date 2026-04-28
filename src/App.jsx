@@ -35,6 +35,8 @@ import MyProducts from "./Pages/Dashbords/UsersDashbord/OwnedProducts";
 import Wallet from "./Pages/Dashbords/UsersDashbord/Wallet";
 import Notifications from "./Pages/Dashbords/UsersDashbord/Notifications";
 import UserProfile from "./Pages/Dashbords/UsersDashbord/UserProfile";
+import ForgotPassword from "./Pages/AuthPage/ForgotPassword";
+import ResetPassword from "./Pages/AuthPage/ResetPassword";
 
 const App = () => {
   return (
@@ -53,6 +55,8 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route element={<AdminLayout />}>

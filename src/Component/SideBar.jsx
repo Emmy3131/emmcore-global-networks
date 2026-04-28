@@ -1,10 +1,13 @@
 import { NavLink } from "react-router-dom";
 import UserInfo from "./UserInfo";
 import { CiLogout } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ links, title, isOpen, onClose }) => {
   const baseUrl =
     "https://emm-core-global-networks-updated.vercel.app/api/v1/users/logout";
+
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -16,10 +19,16 @@ const Sidebar = ({ links, title, isOpen, onClose }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (res.ok) {
+      const data = await res.json();
+      console.log("Logout response:", data);
+      if (data.status !== "success") {
+        throw new Error(data.message || "Logout failed");
+      } else {
+        // ✅ ALWAYS clear local session
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        navigate("/auth");
+        console.log("Logout successful");
+        navigate("/login");
       }
     } catch (error) {
       console.error("Error logging out:", error);
