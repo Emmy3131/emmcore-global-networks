@@ -15,7 +15,8 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const baseUrl =
+    "https://emm-core-global-networks-updated.vercel.app/api/v1/users/resetPassword/:token";
 
   // ================= RESET PASSWORD =================
   const handleResetPassword = async (e) => {
@@ -31,7 +32,7 @@ const ResetPassword = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${baseUrl}/auth/resetPassword/${token}`, {
+      const res = await fetch(`${baseUrl}/${token}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
