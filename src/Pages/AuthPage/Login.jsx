@@ -56,7 +56,7 @@ const Login = () => {
 
       // ✅ Role based redirect
       if (data.data.role === "admin") {
-        navigate("/admin/dashboard");
+        navigate("/dashboard");
       } else {
         navigate("/userDashboard");
       }

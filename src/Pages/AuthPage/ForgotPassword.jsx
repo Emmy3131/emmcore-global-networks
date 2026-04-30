@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${baseUrl}/forgotPassword`, {
+      const res = await fetch(baseUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

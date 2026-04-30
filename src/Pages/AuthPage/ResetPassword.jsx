@@ -16,7 +16,7 @@ const ResetPassword = () => {
   const [success, setSuccess] = useState("");
 
   const baseUrl =
-    "https://emm-core-global-networks-updated.vercel.app/api/v1/users/resetPassword/:token";
+    `https://emm-core-global-networks-updated.vercel.app/api/v1/users/resetPassword`;
 
   // ================= RESET PASSWORD =================
   const handleResetPassword = async (e) => {
